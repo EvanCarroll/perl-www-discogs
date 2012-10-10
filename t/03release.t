@@ -6,7 +6,7 @@ use HTTP::Response;
 use FindBin qw( $Bin );
 use File::Slurp qw( read_file );
 
-use Test::More tests => 22;
+use Test::More tests => 20;
 
 BEGIN { use_ok 'WWW::Discogs' }
 
@@ -17,8 +17,6 @@ $mock_ua->map('http://api.discogs.com/release/1', $response);
 my $client = new_ok('WWW::Discogs' => [], '$client');
 my $rel = $client->release(id => 1);
 isa_ok($rel, 'WWW::Discogs::Release','$rel');
-isa_ok($rel, 'WWW::Discogs::HasMedia', '$rel');
-isa_ok($rel, 'WWW::Discogs::ReleaseBase', '$rel');
 
 is($rel->country, 'Sweden', 'country');
 is($rel->title, 'Stockholm', 'title');

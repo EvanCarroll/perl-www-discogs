@@ -6,12 +6,12 @@ use warnings;
 use LWP::UserAgent;
 use URI;
 use URI::Escape;
-use Carp;
+use Carp ();
 use JSON::XS;
 use Data::Dumper;
 
 use 5.008;
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 our @namespaces = qw ( Artist Release Label Search Master );
 

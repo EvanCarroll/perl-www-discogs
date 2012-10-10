@@ -12,8 +12,8 @@ use Test::Exception;
 
 BEGIN {
     use_ok 'WWW::Discogs';
-    use_ok 'WWW::Discogs::HasMedia';
-    use_ok 'WWW::Discogs::ReleaseBase';
+    use_ok 'WWW::Discogs::Roles::HasMedia';
+    use_ok 'WWW::Discogs::Roles::ReleaseBase';
 }
 
 my $rt = read_file("$Bin/../requests/error.res");
@@ -23,8 +23,8 @@ $mock_ua->map('http://api.discogs.com/label/1foobar2', $response);
 my $client = new_ok('WWW::Discogs' => [], '$client');
 dies_ok { $client->label(name => '1foobar2') } 'error response';
 
-dies_ok { WWW::Discogs::HasMedia->new } 'new WWW::Discogs::HasMedia';
-dies_ok { WWW::Discogs::ReleaseBase->new } 'new WWW::Discogs::ReleaseBase';
+dies_ok { WWW::Discogs::HasMedia->new } 'new WWW::Discogs::Roles::HasMedia';
+dies_ok { WWW::Discogs::ReleaseBase->new } 'new WWW::Discogs::Roles::ReleaseBase';
 
 my @methods = qw( artist release master label search );
 my %hash = ( foo => 1, bar => 2 );

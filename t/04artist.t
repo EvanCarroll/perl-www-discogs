@@ -6,7 +6,7 @@ use HTTP::Response;
 use FindBin qw( $Bin );
 use File::Slurp qw( read_file );
 
-use Test::More tests => 12;
+use Test::More tests => 10;
 use Test::Deep;
 
 BEGIN { use_ok 'WWW::Discogs' }
@@ -20,8 +20,6 @@ $mock_ua->map(
 
 my $client = new_ok('WWW::Discogs' => [], '$client');
 my $artist = $client->artist(name => 'Christian Morgenstern', releases => 1);
-isa_ok($artist, 'WWW::Discogs::Artist', '$artist');
-isa_ok($artist, 'WWW::Discogs::HasMedia', '$artist');
 
 is($artist->name, 'Christian Morgenstern', 'name');
 is($artist->realname, "G\x{f6}tz-Christian Morgenstern", 'realname');

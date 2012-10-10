@@ -12,7 +12,8 @@ WriteMakefile(
         'URI' => 0,
         'URI::Escape' => 0,
         'JSON::XS' => 0,
-        'NEXT' => 0,
+        'Moose' => 0,
+        'namespace::autoclean' => 0,
     },
     BUILD_REQUIRES => {
         'Test::More' => 0,

@@ -6,7 +6,7 @@ use HTTP::Response;
 use FindBin qw( $Bin );
 use File::Slurp qw( read_file );
 
-use Test::More tests => 15;
+use Test::More tests => 13;
 use Test::Deep;
 
 BEGIN { use_ok 'WWW::Discogs' }
@@ -18,8 +18,6 @@ $mock_ua->map('http://api.discogs.com/master/23992', $response);
 my $client = new_ok('WWW::Discogs' => [], '$client');
 my $master = $client->master(id => 23992);
 isa_ok($master, 'WWW::Discogs::Master', '$master');
-isa_ok($master, 'WWW::Discogs::HasMedia', '$master');
-isa_ok($master, 'WWW::Discogs::ReleaseBase', '$master');
 
 is($master->id, 23992, 'id');
 is($master->main_release, 830189, 'main_release');

@@ -2,76 +2,44 @@ package WWW::Discogs::Artist;
 
 use strict;
 use warnings;
-use NEXT;
-use base qw( WWW::Discogs::HasMedia );
-use Carp;
 
-sub new {
-    my ($class, @args) = @_;
+use Moose;
+with 'WWW::Discogs::Roles::HasMedia';
 
-    my $self = {};
-    bless $self, $class;
-    $self->EVERY::LAST::_init(@args);
+use Carp qw(carp);
 
-    return $self;
-}
+use namespace::autoclean;
 
-sub _init {
-    my ($self, %args) = @_;
+has [qw/name realname profile uri/] => (
+	isa => 'Str'
+	, is => 'ro'
+	, default => ''
+);
 
-    $self->{_name}           = $args{name}           || '';
-    $self->{_realname}       = $args{realname}       || '';
-    $self->{_profile}        = $args{profile}        || '';
-    $self->{_aliases}        = $args{aliases}        || [];
-    $self->{_namevariations} = $args{namevariations} || [];
-    $self->{_urls}           = $args{urls}           || [];
-    $self->{_releases}       = $args{releases}       || [];
-    $self->{_params}         = $args{_params}        || {};
-    $self->{_uri}            = $args{_uri}           || '';
+has [qw/aliases namevariations urls/] => (
+	isa => 'ArrayRef'
+	, is => 'ro'
+	, default => sub {+[]}
+	, auto_deref => 1
+);
 
-    return $self;
-}
+has '_releases' => (
+	isa => 'ArrayRef'
+	, is => 'ro'
+	, default => sub {+[]}
+	, init_arg => 'releases'
+);
 
-sub name {
-    my $self = shift;
-    return $self->{_name};
-}
-
-sub realname {
-    my $self = shift;
-    return $self->{_realname};
-}
-
-sub aliases {
-    my $self = shift;
-    return @{ $self->{_aliases} };
-}
-
-sub namevariations {
-    my $self = shift;
-    return @{ $self->{_namevariations} };
-}
-
-sub profile {
-    my $self = shift;
-    return $self->{_profile};
-}
-
-sub urls {
-    my $self = shift;
-    return @{ $self->{_urls} };
-}
+has 'params' => ( isa => 'HashRef', is => 'ro', default => sub { +{} } );
 
 sub releases {
     my $self = shift;
-    unless ($self->{_params}->{releases}) {
-        carp "No releases fetched for artist '" . $self->{_name} .
+    unless ($self->{params}->{releases}) {
+        carp "No releases fetched for artist '" . $self->name .
             "'. Call 'artist' method with releases => 1 param."
     }
 
-    return @{ $self->{_releases} };
+    return @{ $self->_releases };
 }
 
-1;
-
-__END__
+__PACKAGE__->meta->make_immutable;
